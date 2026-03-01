@@ -1,0 +1,276 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: 'Vanguard CF SemiBold';
+  src: url('./Demo_Fonts/Fontspring-DEMO-vanguardcf-medium.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Public Sans SemiBold';
+  src: url('./public-sans/PublicSans-Medium.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  background: url('recursos/fondo.png') no-repeat center center fixed;
+  background-size: cover;
+  color: #111;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* ---------- HEADER ---------- */
+.encabezado {
+  
+  font-family: 'Vanguard CF SemiBold', sans-serif;
+  position: relative;
+  width: 100%;
+  color: white;
+  z-index: 0;
+  padding: 10px 40px 105px; 
+}
+
+.contenido-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 10;
+}
+
+/* Logo */
+
+.logo img {
+  height: 6vw;
+}
+
+/* Navbar */
+
+.navbar ul {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  padding-left: 18vw;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 30px;
+}
+
+.navbar a:hover {
+  color: #d8d8d8;
+}
+
+/* Imagen rasgada */
+
+.imagen-rasgada {
+  position: relative;
+  margin-top: -33vw;
+  bottom: 0;
+  left: -2vw;
+  width: 100%;
+  max-width: 105vw;
+  z-index: -1;
+}
+
+.imagen-rasgada img {
+  width: 105vw;
+  height: 100%;
+  display: block;
+}
+
+main {
+  display: flex;
+  padding: 20px;
+}
+
+/* Intro */
+
+.titulo-intro {
+  margin-left: 2.4vw;
+  font-family: 'Vanguard CF SemiBold', sans-serif;
+  font-size: 2.5rem;
+  text-align: left;
+  color: #003970;
+  margin-top: -1vw;
+}
+
+.texto-intro {
+  margin-top: 2vw;
+  margin-left: 2.4vw;
+  margin-right: 1.5vw;
+  font-family: 'Public Sans SemiBold', sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 2vw;
+}
+
+.titulo2-intro {
+  margin-left: 4vw;
+  font-family: 'Vanguard CF SemiBold', sans-serif;
+  font-size: 3rem;
+  text-align: left;
+  color: #003970;
+  margin-top: 0vw;
+}
+
+.texto2-intro{
+  margin-top: 2vw;
+  margin-left: 4vw;
+  margin-right: 1.5vw;
+  font-family: 'Public Sans SemiBold', sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 2vw;
+}
+
+/* Galeria */
+
+.galeria {
+  margin-left: 2.5vw;
+  margin-right: 2.5vw;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+}
+
+.galeria img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: transform 0.2s ease;
+}
+
+.galeria img:hover {
+  transform: scale(1.03);
+}
+
+/* Player */
+
+video {
+  max-width: 800px;
+  margin: 10px auto;
+  display: block;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+/* Footer */
+
+footer {
+    font-family: 'Vanguard CF SemiBold', sans-serif;
+    background: #fff;
+    color: #0F4170;
+  }
+
+.footer-text{
+        margin-left: 9vw;
+        margin-top: -4.8vw;
+        font-size: 2vw;
+  }
+
+.footer-line {
+    height: 2px;
+    background: black;
+    width: 100%;
+    margin-top: 50px; 
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+  
+.footer-logo {
+    height: 50px;
+    object-fit: contain;
+}
+  
+.social-icons {
+    display: flex;
+    gap: 20px;
+}
+
+.social-icons a {
+    display: inline-flex;
+    transition: opacity 0.3s ease;
+}
+
+.social-icons a:hover {
+    opacity: 0.7;
+}
+
+.social-icons svg {
+    display: block;
+}
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 768px) {
+
+ .imagen-rasgada {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.imagen-rasgada img {
+    width: 100%;
+    max-height: 65%;
+    object-fit: cover;
+  }
+
+  .contenido-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .logo img {
+    height: 80px; 
+    margin-bottom: 10px;
+  }
+
+ .navbar ul {
+    flex-direction: column;
+    gap: 20px;
+    padding-left: 0;
+    margin-top: 10px;
+  }
+
+  .navbar a {
+    font-size: 26px; 
+    letter-spacing: 1px; 
+  }
+
+  .galeria {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+}
