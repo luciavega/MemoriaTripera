@@ -8,13 +8,13 @@
     <script src="glosario.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400&display=swap" rel="stylesheet">
     <style>
-        
+        /* Tooltip */
         .tooltip {
-    font-weight: bold;
-    color: #0F4170;
-    position: relative;
-    cursor: pointer;
-}
+            font-weight: bold;
+            color: #0F4170;
+            position: relative;
+            cursor: pointer;
+        }
 
         .tooltiptext {
             visibility: hidden;
@@ -37,6 +37,62 @@
         .tooltip:hover .tooltiptext {
             visibility: visible;
             opacity: 1;
+        }
+
+        /* BIO */
+        .bio-header {
+            margin: 2rem auto 0;
+            max-width: 90vw;
+            text-align: center;
+        }
+
+        .bio-top {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .bio-img {
+            max-width: 300px;
+            width: 100%;
+            height: auto;
+        }
+
+        .bio-info {
+            text-align: left;
+            font-size: 1.2rem;
+        }
+
+        #bio-id {
+            font-family: 'Vanguard CF SemiBold', sans-serif;
+            font-size: 2.8rem;
+            color: #0F4170;
+        }
+
+        #bio-subtitulo {
+            margin-top: 0.3rem;
+            font-style: italic;
+        }
+
+        #bio-texto {
+            margin-top: 2rem;
+            white-space: pre-wrap;
+            text-align: justify;
+            width: 100%;
+            font-family: 'Public Sans', sans-serif;
+            font-size: 1.1rem;
+        }
+
+        /* Responsive: título/subtítulo debajo de la imagen en móvil */
+        @media (max-width: 768px) {
+            .bio-top {
+                flex-direction: column;
+                align-items: center;
+            }
+            .bio-info {
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -78,21 +134,18 @@ fetch('biografias.json')
     }
     
     document.getElementById('detalle-container').innerHTML = `
-      <div class="bio-header" style="margin:2rem auto 0; max-width: 90vw; text-align:center;">
-        <div style="display:flex; justify-content:center; align-items:center; gap:2rem;">
-          <img src="${p.foto}" alt="${p.nombre}" style="max-width:300px; width:100%; height:auto;">
-          <div style="text-align:left; font-size:1.2rem;">
-            <div id="bio-id" style="font-family:'Vanguard CF SemiBold', sans-serif; font-size:2.8rem; color:#0F4170"><strong>${p.nombre}</strong></div>
-            <div id="bio-subtitulo" style="margin-top:0.3rem; font-style:italic;">${p.subtitulo || ''}</div>
+      <div class="bio-header">
+        <div class="bio-top">
+          <img src="${p.foto}" alt="${p.nombre}" class="bio-img">
+          <div class="bio-info">
+            <div id="bio-id"><strong>${p.nombre}</strong></div>
+            <div id="bio-subtitulo">${p.subtitulo || ''}</div>
           </div>
         </div>
-        <div id="bio-texto" style="margin-top:2rem; white-space:pre-wrap; text-align:justify; width:100%; font-family:'Public Sans', sans-serif; font-size:1.1rem;">
-          ${p.texto}
-        </div>
+        <div id="bio-texto">${p.texto}</div>
       </div>
     `;
 
-    // Aplicar glosario después de insertar el contenido dinámico
     aplicarGlosario();
   })
   .catch(err => console.error(err));
@@ -166,6 +219,5 @@ fetch('biografias.json')
                                 </div>
 
                         </footer>
-
 </body>
 </html>
