@@ -5,7 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Biografía</title>
     <link rel="stylesheet" href="styles.css" />
+    <script src="glosario.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400&display=swap" rel="stylesheet">
+    <style>
+        
+        .tooltip {
+    font-weight: bold;
+    color: #0F4170; /* azul de la página */
+    position: relative;
+    cursor: pointer;
+}
+
+        .tooltiptext {
+            visibility: hidden;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 4px;
+            padding: 5px;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            width: max-content;
+            max-width: 250px;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
 </head>
 <body>
 <header class="encabezado">
@@ -58,6 +91,9 @@ fetch('biografias.json')
         </div>
       </div>
     `;
+
+    // Aplicar glosario después de insertar el contenido dinámico
+    aplicarGlosario();
   })
   .catch(err => console.error(err));
 </script>
