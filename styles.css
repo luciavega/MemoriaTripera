@@ -23,6 +23,8 @@ body::-webkit-scrollbar {
 }
 
 body {
+  margin: 0;
+  padding: 0;
   background: url('recursos/fondo.png') no-repeat center center fixed;
   background-size: cover;
   color: #111;
@@ -101,6 +103,8 @@ main {
   padding: 20px;
 }
 
+/* Index */
+
 /* Intro */
 
 .titulo-intro {
@@ -168,9 +172,11 @@ main {
 
 /* Player */
 
-video {
-  max-width: 800px;
-  margin: 10px auto;
+iframe {
+  width: 50%;         
+  max-width: 742px;   
+  aspect-ratio: 16/9;   
+  margin: 30px auto 10px; 
   display: block;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
@@ -273,4 +279,170 @@ footer {
     grid-template-columns: repeat(2, 1fr);
   }
   
+}
+
+/* ---------- LAYOUT GENERAL ---------- */
+
+.contenedor-principal {
+    display: flex;
+    gap: 50px;
+    padding: 60px 80px;
+}
+
+/* ---------- SIDEBAR ---------- */
+
+.sidebar {
+    width: 260px;
+    flex-shrink: 0;
+}
+
+.sidebar h3 {
+    font-size: 20px;
+    margin-bottom: 25px;
+    font-family: 'Vanguard CF SemiBold', sans-serif;
+    color: #003970;
+}
+
+.bloque-filtro {
+    margin-bottom: 30px;
+}
+
+.bloque-filtro h4 {
+    margin-bottom: 12px;
+    font-size: 16px;
+    font-family: 'Public Sans', sans-serif;
+}
+
+.bloque-filtro label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: 'Public Sans', sans-serif;
+}
+
+.bloque-filtro input[type="checkbox"] {
+    margin-right: 6px;
+    cursor: pointer;
+}
+
+/* Buscador */
+
+#buscador {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    margin-top: 8px;
+    outline: none;
+    font-family: 'Public Sans', sans-serif;
+}
+
+#buscador:focus {
+    border-color: #0F4170;
+}
+
+/* Botón reset */
+
+.btn-reset {
+    margin-top: 15px;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #0F4170;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s ease;
+    font-family: 'Vanguard CF SemiBold', sans-serif;
+}
+
+.btn-reset:hover {
+    background-color: #0c3356;
+}
+
+/* ---------- GRID ---------- */
+
+.grid-biografias {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+}
+
+/* ---------- CARDS ---------- */
+
+.card {
+    display: flex;
+    flex-direction: column;
+}
+
+/* SOLO ESTA PARTE ES CLICKEABLE */
+.card-click {
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card-click:hover {
+    transform: translateY(-6px);
+}
+
+/* IMAGEN CUADRADA */
+
+.card-click img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+    border-radius: 8px;
+}
+
+/* NOMBRE */
+
+.card-click h3 {
+    margin-top: 14px;
+    font-family: 'Vanguard CF SemiBold', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #003970;
+    line-height: 1.3;
+}
+
+/* ---------- TÍTULO ---------- */
+
+.titulo-intro {
+    margin-bottom: 50px;
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+@media (max-width: 1200px) {
+    .grid-biografias {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .contenedor-principal {
+        flex-direction: column;
+        padding: 40px;
+    }
+
+    .sidebar {
+        width: 100%;
+    }
+
+    .grid-biografias {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+
+    .contenedor-principal {
+        padding: 30px 20px;
+    }
+
+    .grid-biografias {
+        grid-template-columns: 1fr;
+    }
 }
