@@ -5,9 +5,9 @@
 }
 
 @font-face {
-  font-family: 'Vanguard CF SemiBold';
-  src: url('./Demo_Fonts/Fontspring-DEMO-vanguardcf-medium.otf') format('opentype');
-  font-weight: 600;
+  font-family: 'Antonio';
+  src: url('./Antonio/Antonio-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900; /* porque es variable */
   font-style: normal;
 }
 
@@ -37,7 +37,7 @@ body {
 /* ---------- HEADER ---------- */
 .encabezado {
   
-  font-family: 'Vanguard CF SemiBold', sans-serif;
+  font-family: 'Antonio', sans-serif;
   position: relative;
   width: 100%;
   color: white;
@@ -109,7 +109,7 @@ main {
 
 .titulo-intro {
   margin-left: 4vw; 
-  font-family: 'Vanguard CF SemiBold', sans-serif;
+  font-family: 'Antonio', sans-serif;
   font-size: 3rem;
   text-align: left;
   color: #003970;
@@ -129,7 +129,7 @@ main {
 
 .titulo2-intro {
   margin-left: 4vw;
-  font-family: 'Vanguard CF SemiBold', sans-serif;
+  font-family: 'Antonio', sans-serif;
   font-size: 3rem;
   text-align: left;
   color: #003970;
@@ -185,7 +185,7 @@ iframe {
 /* Footer */
 
 footer {
-    font-family: 'Vanguard CF SemiBold', sans-serif;
+    font-family: 'Antonio', sans-serif;
     background: #fff;
     color: #0F4170;
   }
@@ -299,7 +299,7 @@ footer {
 .sidebar h3 {
     font-size: 20px;
     margin-bottom: 25px;
-    font-family: 'Vanguard CF SemiBold', sans-serif;
+    font-family: 'Antonio', sans-serif;
     color: #003970;
 }
 
@@ -403,7 +403,7 @@ footer {
     color: white;
     cursor: pointer;
     transition: 0.2s ease;
-    font-family: 'Vanguard CF SemiBold', sans-serif;
+    font-family: 'Antonio', sans-serif;
 }
 
 .btn-reset:hover {
@@ -450,7 +450,7 @@ footer {
 
 .card-click h3 {
     margin-top: 14px;
-    font-family: 'Vanguard CF SemiBold', sans-serif;
+    font-family: 'Antonio', sans-serif;
     font-size: 1rem;
     font-weight: 600;
     color: #003970;
@@ -553,7 +553,7 @@ footer {
     margin-left: 4vw;
     margin-top: 0vw;
     padding: 10px 20px;
-    font-family: 'Vanguard CF SemiBold', sans-serif;
+    font-family: 'Antonio', sans-serif;
     font-size: 1rem;
     background-color: #003970;
     color: white;
