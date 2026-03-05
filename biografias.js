@@ -34,6 +34,55 @@ const grid = document.getElementById('grid');
 const buscador = document.getElementById('buscador');
 const botonReset = document.querySelector('.btn-reset');
 
+function normalizarTextoFiltro(valor) {
+  return (valor || '')
+    .toString()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[“”"']/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+}
+
+function combinarMetadatosFiltros(data = [], filtrosMeta = []) {
+  const camposArray = ['primarios', 'secundarios', 'superiores', 'militancia', 'deporte', 'instituciones', 'ccdd'];
+  const metaPorId = new Map();
+
+  if (Array.isArray(filtrosMeta)) {
+    filtrosMeta.forEach(item => {
+      if (item && item.id) metaPorId.set(item.id, item);
+    });
+  }
+
+  return data.map(persona => {
+    const meta = metaPorId.get(persona.id);
+    if (!meta) return persona;
+
+    const fusionada = { ...persona };
+    camposArray.forEach(campo => {
+      if (Array.isArray(meta[campo]) && meta[campo].length > 0) {
+        fusionada[campo] = meta[campo];
+      }
+    });
+
+    if (meta.tipo_victima) fusionada.tipo_victima = meta.tipo_victima;
+    if (meta.nacimiento) fusionada.nacimiento = meta.nacimiento;
+
+    return fusionada;
+  });
+}
+
+function coincideArrayOTexto(persona, campo, valorFiltro) {
+  const buscado = normalizarTextoFiltro(valorFiltro);
+  const enArray = Array.isArray(persona[campo]) && persona[campo].some(x => {
+    const normalizado = normalizarTextoFiltro(x);
+    return normalizado === buscado || normalizado.includes(buscado) || buscado.includes(normalizado);
+  });
+  const enTexto = normalizarTextoFiltro(persona.texto || '').includes(buscado);
+  return enArray || enTexto;
+}
+
 // Limpiar contenido estático
 if (grid) {
   grid.innerHTML = '';
@@ -46,7 +95,7 @@ Promise.all([
   fetch('biografias_filtros.json').then(r => r.json()).catch(() => [])
 ])
   .then(([data, filtrosMeta]) => {
-    personas = data;
+    personas = combinarMetadatosFiltros(data, filtrosMeta);
     inicializarFiltros(filtrosMeta);
     render(personas);
   })
@@ -220,14 +269,21 @@ function inicializarFiltros(explicitData = []) {
 function poblarSelect(selectId, opciones) {
   const select = document.getElementById(selectId);
   if (!select) return;
-  
+
+  const opcionesUnicas = new Map();
   opciones.forEach(opcion => {
-    if (opcion && opcion.trim()) {
-      const option = document.createElement('option');
-      option.value = opcion;
-      option.textContent = opcion.substring(0, 60);
-      select.appendChild(option);
+    if (!opcion || !opcion.trim()) return;
+    const key = normalizarTextoFiltro(opcion);
+    if (!opcionesUnicas.has(key)) {
+      opcionesUnicas.set(key, opcion.trim());
     }
+  });
+  
+  Array.from(opcionesUnicas.values()).sort().forEach(opcion => {
+    const option = document.createElement('option');
+    option.value = opcion;
+    option.textContent = opcion.substring(0, 60);
+    select.appendChild(option);
   });
 
   select.addEventListener('change', () => {
@@ -277,81 +333,47 @@ function aplicarFiltros() {
 
   // Filtro Primarios
   if (filtros.primarios) {
-    resultado = resultado.filter(p => {
-      if (p.primarios && Array.isArray(p.primarios)) {
-        return p.primarios.some(x => x.toLowerCase() === filtros.primarios.toLowerCase());
-      }
-      return (p.texto || '').toLowerCase().includes(filtros.primarios.toLowerCase());
-    });
+    resultado = resultado.filter(p => coincideArrayOTexto(p, 'primarios', filtros.primarios));
   }
 
   // Filtro Secundarios
   if (filtros.secundarios) {
-    resultado = resultado.filter(p => {
-      if (p.secundarios && Array.isArray(p.secundarios)) {
-        return p.secundarios.some(x => x.toLowerCase() === filtros.secundarios.toLowerCase());
-      }
-      return (p.texto || '').toLowerCase().includes(filtros.secundarios.toLowerCase());
-    });
+    resultado = resultado.filter(p => coincideArrayOTexto(p, 'secundarios', filtros.secundarios));
   }
 
   // Filtro Estudios Superiores
   if (filtros.superiores) {
-    resultado = resultado.filter(p => {
-      if (p.superiores && Array.isArray(p.superiores)) {
-        return p.superiores.some(x => x.toLowerCase() === filtros.superiores.toLowerCase());
-      }
-      return (p.texto || '').toLowerCase().includes(filtros.superiores.toLowerCase());
-    });
+    resultado = resultado.filter(p => coincideArrayOTexto(p, 'superiores', filtros.superiores));
   }
 
   // Filtro Militancia
  if (filtros.militancia) {
-  const buscado = filtros.militancia.toLowerCase();
-  const regex = new RegExp(`\\b${buscado}\\b`, 'i'); // \b = límite de palabra
-  resultado = resultado.filter(p => 
-    (p.militancia && p.militancia.some(x => x.toLowerCase() === buscado)) ||
-    regex.test(p.texto || '')
-  );
+  resultado = resultado.filter(p => coincideArrayOTexto(p, 'militancia', filtros.militancia));
   }
 
   // Filtro Deporte
   if (filtros.deporte) {
-    resultado = resultado.filter(p => {
-      if (p.deporte && Array.isArray(p.deporte)) {
-        return p.deporte.some(x => x.toLowerCase() === filtros.deporte.toLowerCase());
-      }
-      return (p.texto || '').toLowerCase().includes(filtros.deporte.toLowerCase());
-    });
+    resultado = resultado.filter(p => coincideArrayOTexto(p, 'deporte', filtros.deporte));
   }
 
   // Filtro Instituciones
   if (filtros.instituciones) {
-    resultado = resultado.filter(p => {
-      if (p.instituciones && Array.isArray(p.instituciones)) {
-        return p.instituciones.some(x => x.toLowerCase() === filtros.instituciones.toLowerCase());
-      }
-      return (p.texto || '').toLowerCase().includes(filtros.instituciones.toLowerCase());
-    });
+    resultado = resultado.filter(p => coincideArrayOTexto(p, 'instituciones', filtros.instituciones));
   }
 
   // Filtro CCDs
   if (filtros.ccdd) {
-    resultado = resultado.filter(p => {
-      if (p.ccdd && Array.isArray(p.ccdd)) {
-        return p.ccdd.some(x => x.toLowerCase() === filtros.ccdd.toLowerCase());
-      }
-      return (p.texto || '').toLowerCase().includes(filtros.ccdd.toLowerCase());
-    });
+    resultado = resultado.filter(p => coincideArrayOTexto(p, 'ccdd', filtros.ccdd));
   }
 
   // Filtro Tipo de Víctima
   if (filtros.victima) {
+    const buscado = normalizarTextoFiltro(filtros.victima);
     resultado = resultado.filter(p => {
-      if (p.tipo_victima && p.tipo_victima.toLowerCase() === filtros.victima.toLowerCase()) {
+      if (p.tipo_victima && normalizarTextoFiltro(p.tipo_victima) === buscado) {
         return true;
       }
-      return (p.texto || '').toLowerCase().includes(filtros.victima.toLowerCase());
+      return normalizarTextoFiltro(p.texto || '').includes(buscado);
     });
   }
 
